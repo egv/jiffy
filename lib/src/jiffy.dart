@@ -206,91 +206,169 @@ class Jiffy {
     return _dateTime;
   }
 
-  DateTime startOf(Units units) {
-    switch (units) {
-      case Units.MILLISECOND:
-        _dateTime = DateTime(
-            _dateTime.year,
-            _dateTime.month,
-            _dateTime.day,
-            _dateTime.hour,
-            _dateTime.minute,
-            _dateTime.second,
-            _dateTime.millisecond);
-        break;
-      case Units.SECOND:
-        _dateTime = DateTime(_dateTime.year, _dateTime.month, _dateTime.day,
-            _dateTime.hour, _dateTime.minute, _dateTime.second);
-        break;
-      case Units.MINUTE:
-        _dateTime = DateTime(_dateTime.year, _dateTime.month, _dateTime.day,
-            _dateTime.hour, _dateTime.minute);
-        break;
-      case Units.HOUR:
-        _dateTime = DateTime(
-            _dateTime.year, _dateTime.month, _dateTime.day, _dateTime.hour);
-        break;
-      case Units.DAY:
-        _dateTime = DateTime(_dateTime.year, _dateTime.month, _dateTime.day);
-        break;
-      case Units.WEEK:
-        var newDate = _dateTime.subtract(Duration(days: day - 1));
-        _dateTime = DateTime(newDate.year, newDate.month, newDate.day);
-        break;
-      case Units.MONTH:
-        _dateTime = DateTime(_dateTime.year, _dateTime.month, 1);
-        break;
-      case Units.YEAR:
-        _dateTime = DateTime(_dateTime.year);
-        break;
+  DateTime startOf(Units units, {bool useUtc = false}) {
+    final dt = useUtc ? _dateTime.toUtc() : _dateTime;
+    if (useUtc) {
+      switch (units) {
+        case Units.MILLISECOND:
+          _dateTime = DateTime.utc(
+            dt.year,
+            dt.month,
+            dt.day,
+            dt.hour,
+            dt.minute,
+            dt.second,
+            dt.millisecond,
+          );
+          break;
+        case Units.SECOND:
+          _dateTime = DateTime.utc(
+              dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second);
+          break;
+        case Units.MINUTE:
+          _dateTime =
+              DateTime.utc(dt.year, dt.month, dt.day, dt.hour, dt.minute);
+          break;
+        case Units.HOUR:
+          _dateTime = DateTime.utc(dt.year, dt.month, dt.day, dt.hour);
+          break;
+        case Units.DAY:
+          _dateTime = DateTime.utc(dt.year, dt.month, dt.day);
+          break;
+        case Units.WEEK:
+          var newDate = dt.subtract(Duration(days: day - 1));
+          _dateTime = DateTime.utc(newDate.year, newDate.month, newDate.day);
+          break;
+        case Units.MONTH:
+          _dateTime = DateTime.utc(dt.year, dt.month, 1);
+          break;
+        case Units.YEAR:
+          _dateTime = DateTime.utc(dt.year);
+          break;
+      }
+    } else {
+      switch (units) {
+        case Units.MILLISECOND:
+          _dateTime = DateTime(
+            dt.year,
+            dt.month,
+            dt.day,
+            dt.hour,
+            dt.minute,
+            dt.second,
+            dt.millisecond,
+          );
+          break;
+        case Units.SECOND:
+          _dateTime = DateTime(
+              dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second);
+          break;
+        case Units.MINUTE:
+          _dateTime = DateTime(dt.year, dt.month, dt.day, dt.hour, dt.minute);
+          break;
+        case Units.HOUR:
+          _dateTime = DateTime(dt.year, dt.month, dt.day, dt.hour);
+          break;
+        case Units.DAY:
+          _dateTime = DateTime(dt.year, dt.month, dt.day);
+          break;
+        case Units.WEEK:
+          var newDate = dt.subtract(Duration(days: day - 1));
+          _dateTime = DateTime(newDate.year, newDate.month, newDate.day);
+          break;
+        case Units.MONTH:
+          _dateTime = DateTime(dt.year, dt.month, 1);
+          break;
+        case Units.YEAR:
+          _dateTime = DateTime(dt.year);
+          break;
+      }
     }
     return _dateTime;
   }
 
-  DateTime endOf(Units units) {
-    switch (units) {
-      case Units.MILLISECOND:
-        _dateTime = DateTime(
-            _dateTime.year,
-            _dateTime.month,
-            _dateTime.day,
-            _dateTime.hour,
-            _dateTime.minute,
-            _dateTime.second,
-            _dateTime.millisecond);
-        break;
-      case Units.SECOND:
-        _dateTime = DateTime(_dateTime.year, _dateTime.month, _dateTime.day,
-            _dateTime.hour, _dateTime.minute, _dateTime.second, 999);
-        break;
-      case Units.MINUTE:
-        _dateTime = DateTime(_dateTime.year, _dateTime.month, _dateTime.day,
-            _dateTime.hour, _dateTime.minute, 59, 999);
-        break;
-      case Units.HOUR:
-        _dateTime = DateTime(_dateTime.year, _dateTime.month, _dateTime.day,
-            _dateTime.hour, 59, 59, 999);
-        break;
-      case Units.DAY:
-        _dateTime = DateTime(
-            _dateTime.year, _dateTime.month, _dateTime.day, 23, 59, 59, 999);
-        break;
-      case Units.WEEK:
-        var newDate = _dateTime.add(Duration(days: DateTime.daysPerWeek - day));
-        _dateTime =
-            DateTime(newDate.year, newDate.month, newDate.day, 23, 59, 59, 999);
-        break;
-      case Units.MONTH:
-        var date = _daysInMonthArray[_dateTime.month];
-        if (_isLeapYear(_dateTime.year) && _dateTime.month == 2) {
-          date = 29;
-        }
-        _dateTime =
-            DateTime(_dateTime.year, _dateTime.month, date, 23, 59, 59, 999);
-        break;
-      case Units.YEAR:
-        _dateTime = DateTime(_dateTime.year, 12, 31, 23, 59, 59, 999);
-        break;
+  DateTime endOf(Units units, {bool useUtc = false}) {
+    final dt = useUtc ? _dateTime.toUtc() : _dateTime;
+    if (useUtc) {
+      switch (units) {
+        case Units.MILLISECOND:
+          _dateTime = DateTime.utc(
+            dt.year,
+            dt.month,
+            dt.day,
+            dt.hour,
+            dt.minute,
+            dt.second,
+            dt.millisecond,
+          );
+          break;
+        case Units.SECOND:
+          _dateTime = DateTime.utc(
+              dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second, 999);
+          break;
+        case Units.MINUTE:
+          _dateTime = DateTime.utc(
+              dt.year, dt.month, dt.day, dt.hour, dt.minute, 59, 999);
+          break;
+        case Units.HOUR:
+          _dateTime =
+              DateTime.utc(dt.year, dt.month, dt.day, dt.hour, 59, 59, 999);
+          break;
+        case Units.DAY:
+          _dateTime = DateTime.utc(dt.year, dt.month, dt.day, 23, 59, 59, 999);
+          break;
+        case Units.WEEK:
+          var newDate = dt.add(Duration(days: DateTime.daysPerWeek - day));
+          _dateTime = DateTime.utc(
+              newDate.year, newDate.month, newDate.day, 23, 59, 59, 999);
+          break;
+        case Units.MONTH:
+          var date = _daysInMonthArray[dt.month];
+          if (_isLeapYear(dt.year) && dt.month == 2) {
+            date = 29;
+          }
+          _dateTime = DateTime.utc(dt.year, dt.month, date, 23, 59, 59, 999);
+          break;
+        case Units.YEAR:
+          _dateTime = DateTime.utc(dt.year, 12, 31, 23, 59, 59, 999);
+          break;
+      }
+    } else {
+      switch (units) {
+        case Units.MILLISECOND:
+          _dateTime = DateTime(dt.year, dt.month, dt.day, dt.hour, dt.minute,
+              dt.second, dt.millisecond);
+          break;
+        case Units.SECOND:
+          _dateTime = DateTime(
+              dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second, 999);
+          break;
+        case Units.MINUTE:
+          _dateTime =
+              DateTime(dt.year, dt.month, dt.day, dt.hour, dt.minute, 59, 999);
+          break;
+        case Units.HOUR:
+          _dateTime = DateTime(dt.year, dt.month, dt.day, dt.hour, 59, 59, 999);
+          break;
+        case Units.DAY:
+          _dateTime = DateTime(dt.year, dt.month, dt.day, 23, 59, 59, 999);
+          break;
+        case Units.WEEK:
+          var newDate = dt.add(Duration(days: DateTime.daysPerWeek - day));
+          _dateTime = DateTime(
+              newDate.year, newDate.month, newDate.day, 23, 59, 59, 999);
+          break;
+        case Units.MONTH:
+          var date = _daysInMonthArray[dt.month];
+          if (_isLeapYear(dt.year) && dt.month == 2) {
+            date = 29;
+          }
+          _dateTime = DateTime(dt.year, dt.month, date, 23, 59, 59, 999);
+          break;
+        case Units.YEAR:
+          _dateTime = DateTime(dt.year, 12, 31, 23, 59, 59, 999);
+          break;
+      }
     }
     return _dateTime;
   }
